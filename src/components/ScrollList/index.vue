@@ -3,14 +3,14 @@
     <swiper :options="swiperOption" ref="mySwiper">
       <!-- slides -->
       <template v-if="type==='template'">
-        <swiper-slide v-for="i in 10" :key="i">
+        <swiper-slide v-for="i in 2" :key="i">
           <img :src="'../static/img/template/'+i+'.jpg'" alt=""
                @click="selectTemplate">
         </swiper-slide>
       </template>
 
       <template v-if="type==='decorate'">
-        <swiper-slide v-for="i in 20" :key="i">
+        <swiper-slide v-for="i in 3" :key="i">
           <img :src="'../static/img/decorate/decorate'+i+'.png'" alt=""
                @click="selectDecorate">
         </swiper-slide>
