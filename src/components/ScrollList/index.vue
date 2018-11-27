@@ -80,9 +80,13 @@
 
 
         fabric.Image.fromURL(e.target.src, function (img) {
-          img.scaleToWidth(card.width)
-          img.scaleToHeight(card.height)
-          card.setBackgroundImage(img)
+          // img.scaleToWidth(card.width)
+          // img.scaleToHeight(card.height)
+          img.set({
+            scaleX: card.width / img.width,
+            scaleY: card.width / img.height,
+          })
+          card.setBackgroundImage(img, card.renderAll.bind(card))
           card.requestRenderAll()
         })
 
@@ -95,15 +99,23 @@
         const card = this.card
         if (!card) return
 
-        const decorate = new fabric.Image(e.target, {
-          borderColor: '#ff8d23',
-        })
-        decorate.set('width', e.target.naturalWidth)
-        decorate.set('height', e.target.naturalHeight)
-        decorate.hasControls = false
-        card.insertAt(decorate, card.getObjects().legnth + 1).setActiveObject(decorate)
+        // const decorate = new fabric.Image(e.target, {
+        //   borderColor: '#ff8d23',
+        // })
+        // decorate.set('width', e.target.naturalWidth)
+        // decorate.set('height', e.target.naturalHeight)
+        // decorate.hasControls = false
+        // card.insertAt(decorate, card.getObjects().legnth + 1).setActiveObject(decorate)
         // decorate.moveTo(card.getObjects().legnth)
         // card.add(decorate)
+        fabric.Image.fromURL(e.target.src, function (img) {
+          img.set({
+            scaleX: 1,
+            scaleY: 1,
+            hasControls: false,
+          });
+          card.add(img)
+        })
       },
 
     }
@@ -119,12 +131,15 @@
     padding: 10px 0;
     background-color: #eff5f8;
     overflow: hidden;
+
     .swiper-wrapper {
       display: flex;
+
       .swiper-slide {
         flex: 1;
       }
     }
+
     img {
       display: inline-block;
       height: 60px;
