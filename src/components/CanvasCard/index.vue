@@ -1,7 +1,5 @@
 <template>
-  <!--<div>-->
   <canvas id="canvas"></canvas>
-  <!--</div>-->
 </template>
 
 <script>
@@ -19,21 +17,24 @@
       ...mapGetters(['htmlFontSize']),
       cW() {
         // return 9 * this.htmlFontSize
-        return this.getRemSize(360, this.htmlFontSize)
+        // return this.getRemSize(360, this.htmlFontSize)
+        return window.innerWidth < 415 ? window.innerWidth - 20 : 395
       },
       cH() {
         // return 5.7 * this.htmlFontSize
-        return this.getRemSize(238, this.htmlFontSize)
+        // return this.getRemSize(238, this.htmlFontSize)
+        return this.cW * 540 / 855
       }
     },
     mounted() {
+      console.log('mounted card');
+      // 会员卡尺寸 85.5*54毫米 (标准)
       const card = this.self = new fabric.Canvas('canvas', {
         backgroundColor: 'white'
       })
       const $canvas = document.querySelectorAll('canvas')
       const canvasContainer = document.querySelector('.canvas-container')
 
-      fabric.Object.NUM_FRACTION_DIGITS = 10;
       card.selection = false
       //设置比实际大的canvas,解决高清屏幕下图片模糊
       // card.setWidth(this.cW * this.dpr)
@@ -43,6 +44,7 @@
 
       // for (let i = 0; i < $canvas.length; i++) {
       //   this.setWHStyle($canvas[i])
+      //   this.setWHStyle($canvas[i])
       // }
       // this.setWHStyle(canvasContainer)
 
@@ -50,7 +52,7 @@
       this.initFrontCard(card)
     },
     beforeDestroy() {
-
+      console.log('beforeDestroy card');
     },
     methods: {
       ...mapActions([

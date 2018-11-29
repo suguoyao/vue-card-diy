@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div class="footer">
     <scroll-list v-if="tabType===2" type="template"></scroll-list>
     <scroll-list v-if="tabType===3" type="decorate"></scroll-list>
+    <scroll-list v-if="tabType===4" type="text"></scroll-list>
 
     <!--<mu-tabs :value.sync="tabType"-->
     <!--class="tabs"-->
@@ -54,6 +55,10 @@
 </script>
 
 <style lang="less" scoped>
+  .footer {
+    overflow: hidden;
+  }
+
   .tabs {
     position: absolute;
     left: 0;
@@ -61,6 +66,7 @@
     width: 100%;
     padding: 0;
     overflow: hidden;
+
     .mu-bottom-item {
       min-width: auto !important;
     }

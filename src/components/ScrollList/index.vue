@@ -16,6 +16,13 @@
         </swiper-slide>
       </template>
 
+      <template v-if="type==='text'">
+        <swiper-slide v-for="i in 3" :key="i">
+          <span style="font-size: 22px;font-weight: bold;margin-left: 10px;"
+                @click="selectText">字体{{i}}</span>
+        </swiper-slide>
+      </template>
+
     </swiper>
   </div>
 </template>
@@ -74,6 +81,7 @@
       // this.swiper.destroy()
     },
     methods: {
+      // 选择模板
       selectTemplate(e) {
         const card = this.card
         if (!card) return
@@ -84,7 +92,7 @@
           // img.scaleToHeight(card.height)
           img.set({
             scaleX: card.width / img.width,
-            scaleY: card.width / img.height,
+            scaleY: card.height / img.height,
           })
           card.setBackgroundImage(img, card.renderAll.bind(card))
           card.requestRenderAll()
@@ -95,29 +103,40 @@
         // template.scaleToHeight(card.height)
         // card.setBackgroundImage(template, card.renderAll.bind(card));
       },
+      // 选择装饰
       selectDecorate(e) {
         const card = this.card
         if (!card) return
 
-        // const decorate = new fabric.Image(e.target, {
-        //   borderColor: '#ff8d23',
-        // })
-        // decorate.set('width', e.target.naturalWidth)
-        // decorate.set('height', e.target.naturalHeight)
-        // decorate.hasControls = false
-        // card.insertAt(decorate, card.getObjects().legnth + 1).setActiveObject(decorate)
-        // decorate.moveTo(card.getObjects().legnth)
-        // card.add(decorate)
         fabric.Image.fromURL(e.target.src, function (img) {
           img.set({
-            scaleX: 1,
-            scaleY: 1,
+            // scaleX: card.width / img.width / 2,
+            // scaleY: card.height / img.height / 2,
+            scaleX: 0.7,
+            scaleY: 0.7,
             hasControls: false,
+            borderColor: '#ff8d23'
           });
           card.add(img)
+          img.moveTo(1)
         })
       },
+      // 选择文字
+      selectText() {
+        const card = this.card
+        if (!card) return
 
+        var textbox = new fabric.Textbox('这是一段文字', {
+          left: 50,
+          top: 50,
+          width: 150,
+          fontSize: 20,
+          fontWeight: 800,
+          hasControls: false,
+          borderColor: '#ff8d23'
+        });
+        card.add(textbox).setActiveObject(textbox);
+      },
     }
   }
 </script>
@@ -126,6 +145,7 @@
   .scroller {
     position: absolute;
     width: 100%;
+    min-height: 60px;
     left: 0;
     bottom: 56px;
     padding: 10px 0;
