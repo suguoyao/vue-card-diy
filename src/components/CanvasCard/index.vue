@@ -14,7 +14,12 @@
       }
     },
     computed: {
-      ...mapGetters(['htmlFontSize']),
+      ...mapGetters([
+        'htmlFontSize',
+        'canvasState',
+        'undoList',
+        'redoList',
+      ]),
       cW() {
         // return 9 * this.htmlFontSize
         // return this.getRemSize(360, this.htmlFontSize)
@@ -32,24 +37,19 @@
       const card = this.self = new fabric.Canvas('canvas', {
         backgroundColor: 'white'
       })
-      const $canvas = document.querySelectorAll('canvas')
-      const canvasContainer = document.querySelector('.canvas-container')
 
       card.selection = false
+      card.preserveObjectStacking = true // 禁止选中图层时自定置于顶部
+
       //设置比实际大的canvas,解决高清屏幕下图片模糊
       // card.setWidth(this.cW * this.dpr)
       // card.setHeight(this.cH * this.dpr)
       card.setWidth(this.cW)
       card.setHeight(this.cH)
 
-      // for (let i = 0; i < $canvas.length; i++) {
-      //   this.setWHStyle($canvas[i])
-      //   this.setWHStyle($canvas[i])
-      // }
-      // this.setWHStyle(canvasContainer)
-
       this.addCardEventListener(card)
       this.initFrontCard(card)
+      this.saveState()
     },
     beforeDestroy() {
       console.log('beforeDestroy card');
@@ -57,7 +57,11 @@
     methods: {
       ...mapActions([
         'initFrontCard',
-        'setSelectedObj'
+        'setSelectedObj',
+        // 'setCanvasState',
+        'saveState',
+        // 'addUndo',
+        // 'setRedo',
       ]),
       // setWHStyle(dom) {
       //   dom.style.width = this.cW + 'px'
@@ -66,12 +70,15 @@
       addCardEventListener(card) {
         card.on('object:added', (e) => {
           console.log('object:added')
+          // this.saveState()
         })
         card.on('object:modified', (e) => {
           console.log('object:modified')
+          this.saveState()
         })
         card.on('object:removed', (e) => {
           console.log('object:removed')
+          this.saveState()
         })
         // card.on('object:selected', (e) => {
         //   console.log('object:selected', e.target)
@@ -89,7 +96,7 @@
           console.log('selection:cleared')
           this.setSelectedObj(null)
         })
-      }
+      },
     }
   }
 </script>

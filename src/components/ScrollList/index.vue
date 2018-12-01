@@ -23,6 +23,15 @@
         </swiper-slide>
       </template>
 
+      <template v-if="type==='layer'">
+        <swiper-slide class="layer-list" v-for="(obj,i) in layerList" :key="i">
+          <div class="item" :class="{active:obj===selectedObj}"
+               @click="selectLayerItem(obj,i)">
+            <img v-if="obj.type === 'image'" :src="obj._element.src" alt="">
+            <p v-if="obj.type === 'textbox'" class="text">{{obj.text}}</p>
+          </div>
+        </swiper-slide>
+      </template>
     </swiper>
   </div>
 </template>
@@ -31,9 +40,11 @@
   import 'swiper/dist/css/swiper.css'
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
 
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
 
-  import {insertDecorate} from "@/utils/operating"
+  import {rangeNum} from "@/utils"
+
+  // import {insertDecorate} from "@/utils/operating"
 
   export default {
     name: "ScrollList",
@@ -48,7 +59,7 @@
       },
       between: {
         type: Number,
-        default: 30
+        default: 10
       }
     },
     data() {
@@ -64,9 +75,22 @@
       }
     },
     computed: {
-      ...mapGetters(['card']),
+      ...mapGetters([
+        'card',
+        'selectedObj',
+      ]),
       swiper() {
         return this.$refs.mySwiper.swiper
+      },
+      layerList() {
+        return this.card.getObjects()
+      }
+    },
+    watch: {
+      // 监听object选中变化
+      // 图层layer滚动到对应object
+      selectedObj() {
+        // console.log('selectedObj change');
       }
     },
     mounted() {
@@ -74,51 +98,50 @@
       this.swiper.slideTo(0, 500, false)
     },
     updated() {
-      console.log('updated');
-      this.swiper.slideTo(0, 500, false)
+      // console.log('updated');
+      // this.swiper.slideTo(0, 500, false)
     },
     beforeDestroy() {
       // this.swiper.destroy()
     },
     methods: {
+      ...mapActions([
+        'saveState',
+      ]),
       // 选择模板
       selectTemplate(e) {
         const card = this.card
         if (!card) return
 
 
-        fabric.Image.fromURL(e.target.src, function (img) {
-          // img.scaleToWidth(card.width)
-          // img.scaleToHeight(card.height)
+        fabric.Image.fromURL(e.target.src, (img) => {
           img.set({
             scaleX: card.width / img.width,
             scaleY: card.height / img.height,
           })
           card.setBackgroundImage(img, card.renderAll.bind(card))
           card.requestRenderAll()
-        })
 
-        // const template = new fabric.Image(e.target)
-        // template.scaleToWidth(card.width)
-        // template.scaleToHeight(card.height)
-        // card.setBackgroundImage(template, card.renderAll.bind(card));
+          this.saveState()
+        })
       },
       // 选择装饰
       selectDecorate(e) {
         const card = this.card
         if (!card) return
 
-        fabric.Image.fromURL(e.target.src, function (img) {
+        fabric.Image.fromURL(e.target.src, (img) => {
           img.set({
-            // scaleX: card.width / img.width / 2,
-            // scaleY: card.height / img.height / 2,
             scaleX: 0.7,
             scaleY: 0.7,
+            angle: 0,
+            left: rangeNum(10, card.width / 2),
+            top: rangeNum(10, card.height / 2),
             hasControls: false,
-            borderColor: '#ff8d23'
+            borderColor: '#ff8d23',
           });
-          card.add(img)
-          img.moveTo(1)
+          card.add(img).setActiveObject(img)
+          this.saveState()
         })
       },
       // 选择文字
@@ -126,16 +149,28 @@
         const card = this.card
         if (!card) return
 
-        var textbox = new fabric.Textbox('这是一段文字', {
+        const textbox = new fabric.Textbox('这是一段文字', {
           left: 50,
           top: 50,
           width: 150,
           fontSize: 20,
           fontWeight: 800,
           hasControls: false,
-          borderColor: '#ff8d23'
+          borderColor: '#ff8d23',
+          editingBorderColor: '#ff8d23',
         });
-        card.add(textbox).setActiveObject(textbox);
+        card.add(textbox).setActiveObject(textbox)
+        this.saveState()
+      },
+      // 选中图层中的Object
+      // 在图层过多时，方便于快速选中
+      selectLayerItem(object, index) {
+        const card = this.card
+        if (!card) return
+
+        card.setActiveObject(object)
+        card.renderAll()
+        // this.swiper.slideTo(index, 500, false)
       },
     }
   }
@@ -166,6 +201,23 @@
       float: left;
       line-height: 100px;
       margin: 0 10px;
+    }
+    .layer-list {
+      .item {
+        display: inline-block;
+        box-sizing: border-box;
+        overflow: hidden;
+        &.active {
+          border: 1px solid #ff8d23;
+        }
+      }
+      .text {
+        width: 100px;
+        word-break: break-all;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 </style>

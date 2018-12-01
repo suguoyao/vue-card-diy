@@ -1,16 +1,16 @@
 <template>
   <mu-container v-if="selectedObj" class="button-wrapper">
     <div>
-      <mu-button fab small color="primary">
+      <mu-button fab small color="primary" @click="rotateObject">
         <mu-icon value="rotate_90_degrees_ccw"></mu-icon>
       </mu-button>
-      <mu-button fab small color="primary">
+      <mu-button fab small color="primary" @click="flipXObject">
         <mu-icon value="flip"></mu-icon>
       </mu-button>
-      <mu-button fab small color="primary">
+      <mu-button fab small color="primary" @click="frontObject">
         <mu-icon value="arrow_upward"></mu-icon>
       </mu-button>
-      <mu-button fab small color="primary">
+      <mu-button fab small color="primary" @click="behindObject">
         <mu-icon value="arrow_downward"></mu-icon>
       </mu-button>
       <mu-button fab small color="error" @click="removeObject">
@@ -19,6 +19,10 @@
     </div>
 
     <div style="margin-top: 8px;">
+      <!--<mu-button v-if="selectedObj.type==='textbox'" fab small-->
+      <!--:color="selectedObj.editable?'primary':'warning'" @click="lockTextEdit">-->
+      <!--<mu-icon :value="selectedObj.editable?'lock':'lock_open'"></mu-icon>-->
+      <!--</mu-button>-->
       <mu-button fab small color="warning" @click="getCardObjects">
         <mu-icon value="list"></mu-icon>
       </mu-button>
@@ -44,12 +48,45 @@
 
     },
     methods: {
+      // 90°旋转
+      rotateObject() {
+        this.selectedObj.rotate(this.selectedObj.angle === 360 ? 90 : this.selectedObj.angle + 90)
+        this.card.renderAll()
+      },
+      // 水平翻转
+      flipXObject() {
+        this.selectedObj.set({
+          scaleX: -this.selectedObj.scaleX,
+        })
+        this.card.renderAll()
+      },
+      // 上移一层
+      frontObject() {
+        this.selectedObj.bringForward()
+      },
+      // 下移一层
+      behindObject() {
+        this.selectedObj.sendBackwards()
+      },
+      // 移除Object
       removeObject() {
         if (!this.selectedObj) return
         console.log(this.selectedObj);
         this.card.remove(this.selectedObj)
         this.card.renderAll()
         this.$store.dispatch('setSelectedObj', null)
+      },
+      // 禁用/开启文字编辑
+      lockTextEdit() {
+        if (!this.selectedObj) return
+        this.selectedObj.set({
+          // isEditing: false,
+          // selectable: true,
+          // lockMovementX: false,
+          // lockMovementY: false,
+          editable: !this.selectedObj.editable
+        })
+        this.card.renderAll()
       },
       getCardObjects() {
         if (!this.selectedObj) return

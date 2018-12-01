@@ -2,6 +2,17 @@
  * Created by Sugar on 2018/11/23.
  */
 
+
+/**
+ * 生成指定范围内的随机数
+ * @param min
+ * @param max
+ * @returns {number}
+ */
+export function rangeNum(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 /**
  * 函数节流 返回函数连续调用时，fn 执行频率限定为每多少时间执行一次
  * @param func 需要调用的函数

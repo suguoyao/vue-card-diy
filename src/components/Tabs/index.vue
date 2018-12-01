@@ -3,19 +3,7 @@
     <scroll-list v-if="tabType===2" type="template"></scroll-list>
     <scroll-list v-if="tabType===3" type="decorate"></scroll-list>
     <scroll-list v-if="tabType===4" type="text"></scroll-list>
-
-    <!--<mu-tabs :value.sync="tabType"-->
-    <!--class="tabs"-->
-    <!--color="#a7a7a7"-->
-    <!--indicator-color="#fff"-->
-    <!--full-width-->
-    <!--@change="tabItemClick">-->
-    <!--<mu-tab :value="1">图片</mu-tab>-->
-    <!--<mu-tab :value="2">模板</mu-tab>-->
-    <!--<mu-tab :value="3">装饰</mu-tab>-->
-    <!--<mu-tab :value="4">装饰</mu-tab>-->
-    <!--<mu-tab :value="5">图层</mu-tab>-->
-    <!--</mu-tabs>-->
+    <scroll-list v-if="tabType===5" type="layer"></scroll-list>
 
     <mu-container class="tabs">
       <mu-bottom-nav :value.sync="tabType" @change="tabItemClick">
@@ -44,9 +32,18 @@
     },
     computed: {},
     created() {
-
+      document.addEventListener('click', this._closeListHandle)
+    },
+    beforeDestroy() {
+      document.removeEventListener('click', this._closeListHandle)
     },
     methods: {
+      _closeListHandle(e) {
+        e.stopPropagation()
+        if (!this.$el.contains(e.target)) {
+          this.tabType = ''
+        }
+      },
       tabItemClick(type) {
         this.tabType = type
       }
