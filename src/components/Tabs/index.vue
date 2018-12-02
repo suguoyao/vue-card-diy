@@ -7,7 +7,9 @@
 
     <mu-container class="tabs">
       <mu-bottom-nav :value.sync="tabType" @change="tabItemClick">
-        <mu-bottom-nav-item title="图片" :value="1" icon="add_a_photo"></mu-bottom-nav-item>
+        <mu-bottom-nav-item title="图片" :value="1" icon="add_a_photo">
+          <!--<input type="file" accept="image/png,image/jpg,image/jpeg">-->
+        </mu-bottom-nav-item>
         <mu-bottom-nav-item title="模板" :value="2" icon="panorama"></mu-bottom-nav-item>
         <mu-bottom-nav-item title="装饰" :value="3" icon="favorite"></mu-bottom-nav-item>
         <mu-bottom-nav-item title="文字" :value="4" icon="text_fields"></mu-bottom-nav-item>
@@ -32,10 +34,10 @@
     },
     computed: {},
     created() {
-      document.addEventListener('click', this._closeListHandle)
+      document.addEventListener('touchend', this._closeListHandle)
     },
     beforeDestroy() {
-      document.removeEventListener('click', this._closeListHandle)
+      document.removeEventListener('touchend', this._closeListHandle)
     },
     methods: {
       _closeListHandle(e) {

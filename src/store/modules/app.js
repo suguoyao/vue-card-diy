@@ -80,9 +80,33 @@ const app = {
         commit('ADD_UNDO', state.canvasState)
       }
 
-      commit('SET_CANVASSTATE', state.frontCard.toJSON())
-      // commit('ADD_UNDO', state.canvasState)
-      console.log(state.canvasState);
+      commit('SET_CANVASSTATE', state.frontCard.toJSON([
+        'hasControls',
+        'borderColor',
+      ]))
+
+      // console.log(state.canvasState)
+    },
+    // 撤销
+    undo({commit, state}) {
+      commit('ADD_REDO', state.canvasState)
+      const lastState = {...state.undoList[state.undoList.length - 1]}
+      commit('SET_CANVASSTATE', lastState)
+      // this.popUndo()
+      commit('POP_UNDO')
+      state.frontCard.loadFromJSON(lastState, () => {
+        state.frontCard.renderAll()
+      })
+    },
+    // 恢复
+    redo({commit, state}) {
+      commit('ADD_UNDO', state.canvasState)
+      const lastState = {...state.redoList[state.redoList.length - 1]}
+      commit('SET_CANVASSTATE', lastState)
+      commit('POP_REDO')
+      state.frontCard.loadFromJSON(lastState, () => {
+        state.frontCard.renderAll()
+      })
     }
   }
 }

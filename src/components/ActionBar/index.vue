@@ -31,7 +31,7 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
 
   export default {
     name: "ActionBar",
@@ -48,10 +48,14 @@
 
     },
     methods: {
+      ...mapActions([
+        'saveState',
+      ]),
       // 90°旋转
       rotateObject() {
         this.selectedObj.rotate(this.selectedObj.angle === 360 ? 90 : this.selectedObj.angle + 90)
         this.card.renderAll()
+        this.saveState()
       },
       // 水平翻转
       flipXObject() {
@@ -59,14 +63,17 @@
           scaleX: -this.selectedObj.scaleX,
         })
         this.card.renderAll()
+        this.saveState()
       },
       // 上移一层
       frontObject() {
         this.selectedObj.bringForward()
+        this.saveState()
       },
       // 下移一层
       behindObject() {
         this.selectedObj.sendBackwards()
+        this.saveState()
       },
       // 移除Object
       removeObject() {

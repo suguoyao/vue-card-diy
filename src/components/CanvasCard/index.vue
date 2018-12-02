@@ -16,9 +16,6 @@
     computed: {
       ...mapGetters([
         'htmlFontSize',
-        'canvasState',
-        'undoList',
-        'redoList',
       ]),
       cW() {
         // return 9 * this.htmlFontSize
@@ -39,6 +36,8 @@
       })
 
       card.selection = false
+      // card.hasControls = false
+      // card.borderColor = '#ff8d23'
       card.preserveObjectStacking = true // 禁止选中图层时自定置于顶部
 
       //设置比实际大的canvas,解决高清屏幕下图片模糊
@@ -58,10 +57,7 @@
       ...mapActions([
         'initFrontCard',
         'setSelectedObj',
-        // 'setCanvasState',
         'saveState',
-        // 'addUndo',
-        // 'setRedo',
       ]),
       // setWHStyle(dom) {
       //   dom.style.width = this.cW + 'px'
