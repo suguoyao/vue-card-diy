@@ -2,7 +2,7 @@
 
 ## 简介
 
-[vue-card-diy](http://card.suguoyao.com)是一个基于Vue的可DIY卡片和生成卡片的个人项目。常见的使用场景有会员卡、名片等卡的定制。
+<a href="http://card.suguoyao.com" target="_blank">vue-card-diy</a>是一个基于Vue的可DIY卡片和生成卡片的个人项目。常见的使用场景有会员卡、名片等卡的定制。
 
 <p align="center">
   <img width="300" src="https://sugars.oss-cn-shenzhen.aliyuncs.com/diy/diy-demo2.png" style="float:left;display:inline-block;">
@@ -13,7 +13,7 @@
 </p>
 
 ## 在线Demo
-[Demo](http://card.suguoyao.com)
+<a href="http://card.suguoyao.com" target="_blank">Demo</a>
 
 ## 技术栈
 [vue](https://cn.vuejs.org/index.html)、[vuex](https://vuex.vuejs.org/zh-cn/)、[vue-router](https://router.vuejs.org/zh-cn/) 、
@@ -72,4 +72,4 @@ npm run build
 
 
 ## License
-[MIT]()
+[MIT](https://github.com/suguoyao/vue-card-diy/blob/master/LICENSE)
