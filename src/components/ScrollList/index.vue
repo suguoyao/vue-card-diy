@@ -5,14 +5,14 @@
       <template v-if="type==='template'">
         <swiper-slide v-for="i in 2" :key="i">
           <img :src="'https://sugars.oss-cn-shenzhen.aliyuncs.com/diy/template/t'+i+'.jpg'" alt=""
-               @click="selectTemplate">
+               @click="selectTemplate" crossorigin="anonymous">
         </swiper-slide>
       </template>
 
       <template v-if="type==='decorate'">
         <swiper-slide v-for="i in 3" :key="i">
           <img :src="'https://sugars.oss-cn-shenzhen.aliyuncs.com/diy/decorate/decorate'+i+'.png'" alt=""
-               @click="selectDecorate">
+               @click="selectDecorate" crossorigin="anonymous">
         </swiper-slide>
       </template>
 
