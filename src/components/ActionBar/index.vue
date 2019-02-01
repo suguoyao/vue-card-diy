@@ -23,9 +23,10 @@
       <!--:color="selectedObj.editable?'primary':'warning'" @click="lockTextEdit">-->
       <!--<mu-icon :value="selectedObj.editable?'lock':'lock_open'"></mu-icon>-->
       <!--</mu-button>-->
-      <mu-button fab small color="warning" @click="getCardObjects">
-        <mu-icon value="list"></mu-icon>
-      </mu-button>
+
+      <!--<mu-button fab small color="warning" @click="getCardObjects">-->
+        <!--<mu-icon value="list"></mu-icon>-->
+      <!--</mu-button>-->
     </div>
   </mu-container>
 </template>

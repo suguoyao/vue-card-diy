@@ -11,6 +11,7 @@ const getters = {
   canvasState: state => state.app.canvasState,
   undoList: state => state.app.undoList,
   redoList: state => state.app.redoList,
+  previewImg: state => state.app.previewImg,
 }
 
 export default getters

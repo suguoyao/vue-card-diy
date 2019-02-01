@@ -8,6 +8,7 @@ const app = {
     canvasState: null,
     undoList: [],
     redoList: [],
+    previewImg: null,
   },
   mutations: {
     SET_HTMLFONTSIZE: (state, fontSize) => {
@@ -40,6 +41,9 @@ const app = {
     SET_REDOLIST: (state, list) => {
       state.redoList = list
     },
+    SET_PREVIEW_IMG: (state, img) => {
+      state.previewImg = img
+    }
   },
   actions: {
     setHtmlFontSize({commit}, fontSize) {
@@ -107,7 +111,11 @@ const app = {
       state.frontCard.loadFromJSON(lastState, () => {
         state.frontCard.renderAll()
       })
-    }
+    },
+    // 预览图片
+    setPreviewImg({commit}, img) {
+      commit('SET_PREVIEW_IMG', img)
+    },
   }
 }
 

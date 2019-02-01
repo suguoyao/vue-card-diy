@@ -123,7 +123,7 @@
           card.requestRenderAll()
 
           this.saveState()
-        })
+        }, {crossOrigin: 'anonymous'})
       },
       // 选择装饰
       selectDecorate(e) {
@@ -141,8 +141,9 @@
             borderColor: '#ff8d23',
           });
           card.add(img).setActiveObject(img)
+
           this.saveState()
-        })
+        }, {crossOrigin: 'anonymous'})
       },
       // 选择文字
       selectText() {
@@ -202,15 +203,18 @@
       line-height: 100px;
       margin: 0 10px;
     }
+
     .layer-list {
       .item {
         display: inline-block;
         box-sizing: border-box;
         overflow: hidden;
+
         &.active {
           border: 1px solid #ff8d23;
         }
       }
+
       .text {
         width: 100px;
         word-break: break-all;

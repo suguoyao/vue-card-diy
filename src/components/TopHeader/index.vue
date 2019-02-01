@@ -37,6 +37,7 @@
       ...mapActions([
         'undo',
         'redo',
+        'setPreviewImg'
       ]),
       clearAll() {
         const card = this.card
@@ -58,7 +59,21 @@
       preview() {
         const card = this.card
         if (!card) return
-        console.log(card.toJSON());
+        console.log(card.toDataURL({
+            multiplier: 1,
+            format: 'jpeg'
+          })
+        )
+
+        const result = card.toDataURL({
+          multiplier: 1,
+          format: 'jpeg'
+        })
+
+        this.setPreviewImg(result)
+        this.$router.push({
+          path: 'preview'
+        })
       }
     }
   }
