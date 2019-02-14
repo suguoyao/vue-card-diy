@@ -83,10 +83,19 @@ const app = {
       if (state.canvasState) {
         commit('ADD_UNDO', state.canvasState)
       }
-
+      console.log(state.frontCard.toJSON([
+        'hasControls',
+        'borderColor',
+      ]))
       commit('SET_CANVASSTATE', state.frontCard.toJSON([
         'hasControls',
         'borderColor',
+        'scaleX',
+        'scaleY',
+        'angle',
+        'top',
+        'left',
+        'crossOrigin'
       ]))
 
       // console.log(state.canvasState)
@@ -108,6 +117,7 @@ const app = {
       const lastState = {...state.redoList[state.redoList.length - 1]}
       commit('SET_CANVASSTATE', lastState)
       commit('POP_REDO')
+      console.log('lastState', lastState)
       state.frontCard.loadFromJSON(lastState, () => {
         state.frontCard.renderAll()
       })
